@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ball
   - Bumper
+  - Bunny
+  - Cake
   layers:
   - Default
   - TransparentFX
