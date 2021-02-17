@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CakeController : MonoBehaviour
+public class BottleController : MonoBehaviour
 {
     MeshRenderer renderer;
     private GameObject bunny;
@@ -12,11 +12,11 @@ public class CakeController : MonoBehaviour
         renderer = gameObject.GetComponent<MeshRenderer>();
         bunny = GameObject.Find("Bunny");
 
-        // hide cake on start
+        // hide bottle on start
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-        // cake will appear in a random position at a random point in time
+        // bottle will appear in a random position at a random point in time
         Vector3 position = new Vector3(Random.Range(-6.0f, 8.0f), Random.Range(15.0f, 24.0f), 2.31f);
         yield return new WaitForSeconds(Random.Range(3.0f, 20.0f));
         this.gameObject.transform.position = position;
@@ -28,8 +28,8 @@ public class CakeController : MonoBehaviour
     // Before rendering each frame..
     void Update () 
 	{
-         //continuously rotates cake
-		transform.Rotate (new Vector3 (0, 0, 150) * Time.deltaTime);
+         //continuously rotates bottle
+		transform.Rotate (new Vector3 (0, 150, 0) * Time.deltaTime, Space.World);
     }
 
     IEnumerator OnCollisionEnter(Collision myCollision)
@@ -39,13 +39,13 @@ public class CakeController : MonoBehaviour
             this.gameObject.GetComponent<MeshRenderer>().enabled = false;
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-            Vector3 newScale = new Vector3(1.5f, 1.5f, 1.5f);
+            Vector3 newScale = new Vector3(.75f, .75f, .75f);
             bunny.transform.localScale = newScale;
 
             yield return new WaitForSeconds(5);
             bunny.transform.localScale = new Vector3(1f, 1f, 1f);
 
-            // cake will appear in a random position at a random point in time
+            // bottle will appear in a random position at a random point in time
             Vector3 position = new Vector3(Random.Range(-6.0f, 8.0f), Random.Range(15.0f, 24.0f), 2.31f);
             yield return new WaitForSeconds(Random.Range(6.0f, 15.0f));
             this.gameObject.transform.position = position;
