@@ -20,6 +20,9 @@ public class BunnyController : MonoBehaviour
     private int timePassed;
     private float startTime;
 
+    // flag for game over
+    private int gameOver = 0;
+
 
     // At the start of the game..
     void Start()
@@ -27,24 +30,43 @@ public class BunnyController : MonoBehaviour
         // Assign the Rigidbody component to our private rb variable
         rb = GetComponent<Rigidbody>();
 
-        // Set the count to zero 
+        // Set game over screen off 
+        gameOverTextObject.SetActive(false);
+
+        // Set game over flag to O, false
+        gameOver = 0;
+
+        // Set the count to zero, timePassed to 0, set start time
 		count = 0;
         timePassed = 0;
-
         startTime = Time.time;
+
     }
 
       void Update()
     {
-        int timeCurr = (int)(Time.time - startTime);
-        count = count + (timeCurr - timePassed);
-        timePassed = timeCurr;
-        // Run the 'SetCountText()' function (see below)
-		SetCountText ();
+        // If the game is still running
+        if (gameOver == 0)
+        {
+            // update the score based on time ( 1 second = 1 point)
+            int timeCurr = (int)(Time.time - startTime);
+            count = count + (timeCurr - timePassed);
+            timePassed = timeCurr;
+            // Run the 'SetCountText()' function (see below)
+            SetCountText ();
+        }
     }
 
     IEnumerator OnCollisionEnter(Collision myCollision)
     {
+        if (myCollision.gameObject.tag == "Finish")
+        {
+            // set game over flag to true, 1
+            gameOver = 1;
+            // Display Game over screen
+            gameOverTextObject.SetActive(true);
+        }
+
         if (myCollision.gameObject.tag == "Clock")
         {
             // increase ball speed for 5 seconds
