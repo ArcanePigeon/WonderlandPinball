@@ -11,13 +11,12 @@ public class BunnyController : MonoBehaviour
     // Create public variables for for the Text UI game objects
 	public TextMeshProUGUI countText;
 	public GameObject gameOverTextObject;
+    public GameObject newGameTextObject;
 
     // Create private references to the rigidbody component on the ball
     private Rigidbody rb;
     public GameObject mirror1;
     public GameObject mirror2;
-    public float speed;
-    private Vector3 movementVector;
 
     // values for score calculation
     private int count;
@@ -37,6 +36,7 @@ public class BunnyController : MonoBehaviour
 
         // Set game over screen off 
         gameOverTextObject.SetActive(false);
+        newGameTextObject.SetActive(false);
 
         // Set the count to zero, timePassed to 0, set start time
 		count = 0;
@@ -60,10 +60,13 @@ public class BunnyController : MonoBehaviour
         if (Input.GetKeyDown("space"))
         {
             gameOverTextObject.SetActive(false);
+            newGameTextObject.SetActive(false);
             gameOver = 0;
             // Set the count to zero, timePassed to 0, set start time
 		    count = 0;
             timePassed = 0;
+            Vector3 startBunnyPosition = new Vector3(-.13f, 43.41f, 3.1545f);
+            rb.position = startBunnyPosition;
             startTime = Time.time;
         }
     }
@@ -76,24 +79,32 @@ public class BunnyController : MonoBehaviour
             gameOver = 1;
             // Display Game over screen
             gameOverTextObject.SetActive(true);
+            newGameTextObject.SetActive(true);
         }
-        
-        if (myCollision.gameObject.tag == "Clock")
-        {
-            // increase ball speed for 5 seconds
-            // rb.velocity = new Vector3(30f, 30f, 0f);
-            // rb.AddForce(movementVector * speed);
 
+        // if bunny collides with bonus object, increase score by 3
+        if (myCollision.gameObject.tag == "Clock" ||
+            myCollision.gameObject.tag == "Cake" ||
+            myCollision.gameObject.tag == "Bottle") 
+        {
             // Add 3 to the score variable 'count'
 			count = count + 3;
             // Run the 'SetCountText()' function (see below)
 			SetCountText ();
         }
+        
+        if (myCollision.gameObject.tag == "Clock")
+        {
+            Vector3 oldVel = rb.velocity;
+            rb.velocity += transform.forward*80;
+            yield return new WaitForSeconds(5f);
+            rb.velocity = oldVel;
+        }
 
         if (myCollision.gameObject.tag == "Mirror1")
         {
             // mirror 2 position
-            Vector3 m2position = new Vector3(-9f, 28.28f, 3.14f);
+            Vector3 m2position = new Vector3(-10.45f, 31.19f, 1.95f);
             mirror2.GetComponent<BoxCollider>().enabled = false;
             yield return new WaitForSeconds(.5f);
             rb.position = m2position;
@@ -109,7 +120,7 @@ public class BunnyController : MonoBehaviour
         if (myCollision.gameObject.tag == "Mirror2")
         {
             // mirror 1 position
-            Vector3 m1position = new Vector3(10f, 28.39f, 3.14f);
+            Vector3 m1position = new Vector3(10.39f, 38.89f, 2.39f);
             mirror1.GetComponent<BoxCollider>().enabled = false;
             yield return new WaitForSeconds(.5f);
             rb.position = m1position;

@@ -6,19 +6,28 @@ public class ClockController : MonoBehaviour
 {
     MeshRenderer renderer;
     private GameObject bunny;
+    private Vector3[] clockPositionArray = new [] { new Vector3(6.87f,22.02f,3.16f), 
+                                                   new Vector3(4.64f,28.03f,3.16f),
+                                                   new Vector3(12.31f,28.88f,3.16f),
+                                                   new Vector3(2.87f,33.84f,3.16f),
+                                                   new Vector3(-8.92f,27.62f,3.16f),
+                                                   new Vector3(-4.87f,22.04f,3.16f),
+                                                   new Vector3(-.55f,18.85f,3.16f)
+                                                   };
     
     private IEnumerator Start()
     {
         renderer = gameObject.GetComponent<MeshRenderer>();
         bunny = GameObject.Find("Bunny");
 
-        // hide cake on start
+        // hide clock on start
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-        // cake will appear in a random position at a random point in time
-        Vector3 position = new Vector3(Random.Range(-6.0f, 8.0f), Random.Range(15.0f, 24.0f), 2.31f);
-        yield return new WaitForSeconds(Random.Range(8.0f, 45.0f));
+        // clock will appear in a random position at a random point in time
+        int randIndex = Random.Range(0, 7);
+        Vector3 position = clockPositionArray[randIndex];
+        yield return new WaitForSeconds(Random.Range(5.0f, 25.0f));
         this.gameObject.transform.position = position;
 
         this.gameObject.GetComponent<MeshRenderer>().enabled = true;
@@ -39,10 +48,9 @@ public class ClockController : MonoBehaviour
             this.gameObject.GetComponent<MeshRenderer>().enabled = false;
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
 
-            // need to edit speed here -- maybe in bunny controller
-
-            // cake will appear in a random position at a random point in time
-            Vector3 position = new Vector3(Random.Range(-6.0f, 8.0f), Random.Range(15.0f, 24.0f), 2.31f);
+            // clock will appear in a random position at a random point in time
+            int randIndex = Random.Range(0, 7);
+            Vector3 position = clockPositionArray[randIndex];
             yield return new WaitForSeconds(Random.Range(7.0f, 32.0f));
             this.gameObject.transform.position = position;
             this.gameObject.GetComponent<MeshRenderer>().enabled = true;

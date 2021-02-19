@@ -6,6 +6,14 @@ public class BottleController : MonoBehaviour
 {
     MeshRenderer renderer;
     private GameObject bunny;
+    private Vector3[] bottlePositionArray = new [] { new Vector3(5.31f,18.3f,3.01f),
+                                                     new Vector3(6.9f,28.48f,3.01f),
+                                                     new Vector3(11.39f,32.6f,3.01f),
+                                                     new Vector3(.67f,30.45f,3.01f),
+                                                     new Vector3(-10.54f,24.23f,3.01f),
+                                                     new Vector3(-9.7f,16.57f,3.01f),
+                                                     new Vector3(.34f,21.26f,3.01f),
+                                                   };
     
     private IEnumerator Start()
     {
@@ -17,7 +25,8 @@ public class BottleController : MonoBehaviour
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
 
         // bottle will appear in a random position at a random point in time
-        Vector3 position = new Vector3(Random.Range(-6.0f, 8.0f), Random.Range(15.0f, 24.0f), 2.31f);
+        int randIndex = Random.Range(0, 7);
+        Vector3 position = bottlePositionArray[randIndex];
         yield return new WaitForSeconds(Random.Range(3.0f, 20.0f));
         this.gameObject.transform.position = position;
 
@@ -46,7 +55,8 @@ public class BottleController : MonoBehaviour
             bunny.transform.localScale = new Vector3(1f, 1f, 1f);
 
             // bottle will appear in a random position at a random point in time
-            Vector3 position = new Vector3(Random.Range(-6.0f, 8.0f), Random.Range(15.0f, 24.0f), 2.31f);
+            int randIndex = Random.Range(0, 7);
+            Vector3 position = bottlePositionArray[randIndex];
             yield return new WaitForSeconds(Random.Range(6.0f, 15.0f));
             this.gameObject.transform.position = position;
             this.gameObject.GetComponent<MeshRenderer>().enabled = true;
