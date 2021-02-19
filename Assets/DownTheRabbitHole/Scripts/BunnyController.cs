@@ -13,6 +13,9 @@ public class BunnyController : MonoBehaviour
 	public GameObject gameOverTextObject;
     public GameObject newGameTextObject;
 
+    // Adjust the drag for clock object to edit the slowness of bunny
+    public float bunnyDrag;
+
     // Create private references to the rigidbody component on the ball
     private Rigidbody rb;
     public GameObject mirror1;
@@ -95,10 +98,10 @@ public class BunnyController : MonoBehaviour
         
         if (myCollision.gameObject.tag == "Clock")
         {
-            Vector3 oldVel = rb.velocity;
-            rb.velocity += transform.forward*80;
+            // add drag on bunny ball for 5 seconds to create slowness
+            rb.drag = bunnyDrag;
             yield return new WaitForSeconds(5f);
-            rb.velocity = oldVel;
+            rb.drag = 0;
         }
 
         if (myCollision.gameObject.tag == "Mirror1")

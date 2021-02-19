@@ -1456,9 +1456,9 @@ MonoBehaviour:
   countText: {fileID: 1878502314}
   gameOverTextObject: {fileID: 32279523}
   newGameTextObject: {fileID: 995917573}
+  bunnyDrag: 7
   mirror1: {fileID: 854319921}
   mirror2: {fileID: 796156712}
-  speed: 100
 --- !u!95 &394871852
 Animator:
   serializedVersion: 3
