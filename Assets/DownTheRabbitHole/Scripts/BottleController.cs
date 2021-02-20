@@ -6,15 +6,15 @@ public class BottleController : MonoBehaviour
 {
     MeshRenderer renderer;
     private GameObject bunny;
-    private Vector3[] bottlePositionArray = new [] { new Vector3(5.31f,18.3f,3.01f),
-                                                     new Vector3(6.9f,28.48f,3.01f),
-                                                     new Vector3(11.39f,32.6f,3.01f),
-                                                     new Vector3(.67f,30.45f,3.01f),
-                                                     new Vector3(-10.54f,24.23f,3.01f),
-                                                     new Vector3(-9.7f,16.57f,3.01f),
-                                                     new Vector3(.34f,21.26f,3.01f),
-                                                   };
-    
+    private Vector3[] bottlePositionArray = new [] {
+        new Vector3(5.31f,18.3f,3.01f),
+        new Vector3(6.9f,28.48f,3.01f),
+        new Vector3(11.39f,32.6f,3.01f),
+        new Vector3(.67f,30.45f,3.01f),
+        new Vector3(-10.54f,24.23f,3.01f),
+        new Vector3(-9.7f,16.57f,3.01f),
+        new Vector3(.34f,21.26f,3.01f),
+    };
     private IEnumerator Start()
     {
         renderer = gameObject.GetComponent<MeshRenderer>();

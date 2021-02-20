@@ -12,6 +12,8 @@ TagManager:
   - Mirror1
   - Mirror2
   - Bottle
+  - Mushroom
+  - Crystal
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - PostProcessing
   - 
   - 
   - 

@@ -8,6 +8,12 @@ using TMPro;
 
 public class BunnyController : MonoBehaviour
 {
+    // Sound player and files.
+    public AudioSource audioPlayer;
+    public AudioClip bounceClip;
+    public AudioClip mushroomHit;
+    public AudioClip crystalHit;
+    private AudioClip prioritySound;
     // Create public variables for for the Text UI game objects
 	public TextMeshProUGUI countText;
 	public GameObject gameOverTextObject;
@@ -76,6 +82,8 @@ public class BunnyController : MonoBehaviour
 
     IEnumerator OnCollisionEnter(Collision myCollision)
     {
+        Debug.Log(myCollision.gameObject.name);
+        prioritySound = bounceClip;
         if (myCollision.gameObject.tag == "Finish")
         {
             // set game over flag to true, 1
@@ -88,24 +96,30 @@ public class BunnyController : MonoBehaviour
         // if bunny collides with bonus object, increase score by 3
         if (myCollision.gameObject.tag == "Clock" ||
             myCollision.gameObject.tag == "Cake" ||
-            myCollision.gameObject.tag == "Bottle") 
-        {
+            myCollision.gameObject.tag == "Bottle") {
             // Add 3 to the score variable 'count'
 			count = count + 3;
             // Run the 'SetCountText()' function (see below)
 			SetCountText ();
         }
-        
-        if (myCollision.gameObject.tag == "Clock")
-        {
+
+        if (myCollision.gameObject.tag == "Mushroom") {
+            prioritySound = mushroomHit;
+            Debug.Log("*****************");
+        }
+
+        if (myCollision.gameObject.tag == "Crystal") {
+            prioritySound = crystalHit;
+        }
+
+        if (myCollision.gameObject.tag == "Clock") {
             // add drag on bunny ball for 5 seconds to create slowness
             rb.drag = bunnyDrag;
             yield return new WaitForSeconds(5f);
             rb.drag = 0;
         }
 
-        if (myCollision.gameObject.tag == "Mirror1")
-        {
+        if (myCollision.gameObject.tag == "Mirror1") {
             // mirror 2 position
             Vector3 m2position = new Vector3(-10.45f, 31.19f, 1.95f);
             mirror2.GetComponent<BoxCollider>().enabled = false;
@@ -120,8 +134,7 @@ public class BunnyController : MonoBehaviour
 			SetCountText ();
         }
 
-        if (myCollision.gameObject.tag == "Mirror2")
-        {
+        if (myCollision.gameObject.tag == "Mirror2") {
             // mirror 1 position
             Vector3 m1position = new Vector3(10.39f, 38.89f, 2.39f);
             mirror1.GetComponent<BoxCollider>().enabled = false;
@@ -135,6 +148,8 @@ public class BunnyController : MonoBehaviour
             // Run the 'SetCountText()' function (see below)
 			SetCountText ();
         }
+        audioPlayer.PlayOneShot(prioritySound);
+        audioPlayer.SetScheduledEndTime(AudioSettings.dspTime+(1));
     }
 
     void SetCountText()
