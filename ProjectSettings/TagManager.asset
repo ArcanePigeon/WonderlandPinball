@@ -6,6 +6,14 @@ TagManager:
   tags:
   - Ball
   - Bumper
+  - Bunny
+  - Cake
+  - Clock
+  - Mirror1
+  - Mirror2
+  - Bottle
+  - Mushroom
+  - Crystal
   layers:
   - Default
   - TransparentFX
@@ -13,7 +21,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - PostProcessing
   - 
   - 
   - 

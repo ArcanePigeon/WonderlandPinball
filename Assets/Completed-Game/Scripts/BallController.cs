@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class BallController : MonoBehaviour
 {
 
@@ -18,6 +17,7 @@ public class BallController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         audioPlayer = GetComponent<AudioSource>();
+
     }
 
     // Each physics step..
@@ -35,5 +35,9 @@ public class BallController : MonoBehaviour
         {
             audioPlayer.PlayOneShot(bounceClip);
         }
+
+       
     }
+
+    
 }
