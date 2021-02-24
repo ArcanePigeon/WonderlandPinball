@@ -14,6 +14,7 @@ TagManager:
   - Bottle
   - Mushroom
   - Crystal
+  - BkgdMusic
   layers:
   - Default
   - TransparentFX

@@ -14,6 +14,11 @@ public class BunnyController : MonoBehaviour
     public AudioClip mushroomHit;
     public AudioClip crystalHit;
     private AudioClip prioritySound;
+    public AudioClip cakeHit;
+    public AudioClip clockHit;
+    public AudioClip bottleHit;
+    public AudioClip mirrorHit;
+
     // Create public variables for for the Text UI game objects
 	public TextMeshProUGUI countText;
 	public GameObject gameOverTextObject;
@@ -26,6 +31,7 @@ public class BunnyController : MonoBehaviour
     private Rigidbody rb;
     public GameObject mirror1;
     public GameObject mirror2;
+    public GameObject bkgdMusic;
 
     // values for score calculation
     private int count;
@@ -82,78 +88,86 @@ public class BunnyController : MonoBehaviour
 
     IEnumerator OnCollisionEnter(Collision myCollision)
     {
-        Debug.Log(myCollision.gameObject.name);
-        prioritySound = bounceClip;
-        if (myCollision.gameObject.tag == "Finish")
+        switch(myCollision.gameObject.tag) 
         {
+        case "Finish":
             // set game over flag to true, 1
             gameOver = 1;
             // Display Game over screen
             gameOverTextObject.SetActive(true);
             newGameTextObject.SetActive(true);
-        }
-
-        // if bunny collides with bonus object, increase score by 3
-        if (myCollision.gameObject.tag == "Clock" ||
-            myCollision.gameObject.tag == "Cake" ||
-            myCollision.gameObject.tag == "Bottle") {
-            // Add 3 to the score variable 'count'
-			count = count + 3;
-            // Run the 'SetCountText()' function (see below)
-			SetCountText ();
-        }
-
-        if (myCollision.gameObject.tag == "Mushroom") {
-            prioritySound = mushroomHit;
-            Debug.Log("*****************");
-        }
-
-        if (myCollision.gameObject.tag == "Crystal") {
-            prioritySound = crystalHit;
-        }
-
-        if (myCollision.gameObject.tag == "Clock") {
+            break;
+        case "Bottle":
+            IncreaseItemCount();
+            PlaySound(bottleHit);
+            break;
+        case "Cake":
+            IncreaseItemCount();
+            PlaySound(cakeHit);
+            break;
+        case "Clock":
             // add drag on bunny ball for 5 seconds to create slowness
-            rb.drag = bunnyDrag;
+            IncreaseItemCount();
+            PlaySound(clockHit);
+            Time.timeScale = 0.6f;
+            AudioSource backgroundMusic = bkgdMusic.GetComponent<AudioSource>();
+            backgroundMusic.pitch = .5f;
             yield return new WaitForSeconds(5f);
-            rb.drag = 0;
-        }
-
-        if (myCollision.gameObject.tag == "Mirror1") {
+            backgroundMusic.pitch = 1f;
+            Time.timeScale = 1.0f;
+            break;
+        case "Mirror1":
+            IncreaseItemCount();
+            PlaySound(mirrorHit);
             // mirror 2 position
             Vector3 m2position = new Vector3(-10.45f, 31.19f, 1.95f);
             mirror2.GetComponent<BoxCollider>().enabled = false;
             yield return new WaitForSeconds(.5f);
             rb.position = m2position;
+            PlaySound(mirrorHit);
             yield return new WaitForSeconds(4f);
             mirror2.GetComponent<BoxCollider>().enabled = true;
-
-            // Add 3 to the score variable 'count'
-			count = count + 3;
-            // Run the 'SetCountText()' function (see below)
-			SetCountText ();
-        }
-
-        if (myCollision.gameObject.tag == "Mirror2") {
+            break;
+        case "Mirror2":
+            IncreaseItemCount();
+            PlaySound(mirrorHit);
             // mirror 1 position
             Vector3 m1position = new Vector3(10.39f, 38.89f, 2.39f);
             mirror1.GetComponent<BoxCollider>().enabled = false;
             yield return new WaitForSeconds(.5f);
             rb.position = m1position;
+            PlaySound(mirrorHit);
             yield return new WaitForSeconds(4f);
             mirror1.GetComponent<BoxCollider>().enabled = true;
-
-            // Add 3 to the score variable 'count'
-			count = count + 3;
-            // Run the 'SetCountText()' function (see below)
-			SetCountText ();
+            break;
+        case "Mushroom":
+            PlaySound(mushroomHit);
+            break;
+        case "Crystal":
+            PlaySound(crystalHit);
+            break;        
+        default:
+            PlaySound(bounceClip);
+            break;
         }
+    }
+
+    void PlaySound(AudioClip prioritySound)
+    {
         audioPlayer.PlayOneShot(prioritySound);
-        audioPlayer.SetScheduledEndTime(AudioSettings.dspTime+(1));
+        audioPlayer.SetScheduledEndTime(AudioSettings.dspTime+(1));        
     }
 
     void SetCountText()
 	{
 		countText.text = "Score: " + count.ToString();
+    }
+
+    void IncreaseItemCount()
+    {
+        // Add 3 to the score variable 'count'
+        count = count + 3;
+        // Run the 'SetCountText()' function (see below)
+        SetCountText();
     }
 }
